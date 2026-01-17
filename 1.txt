@@ -1,0 +1,75 @@
+1. Check Python and pip
+python --version
+pip --version
+
+2. Install Jupyter Notebook
+pip install notebook
+
+3. Start Jupyter Notebook
+python -m notebook
+
+Browser opens → Jupyter dashboard
+
+Create new notebook → Python 3 (ipykernel)
+
+4. Stop Jupyter in CMD
+
+Press Ctrl + C, then type y if prompted.
+
+5. Install libraries
+pip install numpy pandas seaborn matplotlib
+
+6. Test in notebook
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+
+-------------------------------------------------------
+
+ Quick fixes if Jupyter Notebook cell shows [*] or [] instead of number
+1. Restart the Jupyter server
+    Close all notebooks.
+    Stop the server in terminal (Ctrl + C).
+    Start again:
+   jupyter notebook
+
+ 2. Check file location
+    Move CSV to current working directory or provide full path
+import os
+os.getcwd()  # shows current directory where Jupyter looks for files
+import pandas as pd
+df = pd.read_csv("StudentsPerformance.csv")  # adjust path if needed
+
+
+# Quick look at data
+df.head()                # first 5 rows
+df.describe()            # summary stats for numeric columns
+df.isnull().sum()        # count of missing values per column
+df.info()                # column types, non-null counts, memory
+df.shape                 # (rows, columns)
+df.dtypes		 # shows numeric, categorical values
+df.columns 		 # shows coloumn names
+
+
+# Convert categorical columns to correct type
+df['gender'] = df['gender'].astype('category')
+df['lunch'] = df['lunch'].astype('category')
+df['test preparation course'] = df['test preparation course'].astype('category')
+df['parental level of education'] = df['parental level of education'].astype('category')
+
+# gender, lunch, test preparation course, parental education are categorical, not numeric
+# tell pandas using .astype('category')
+
+# Convert categorical variables into numeric using one-hot encoding
+df_encoded = pd.get_dummies(df, columns=['gender', 'lunch', 'test preparation course', 'parental level of education'])
+
+# Ensure dummy variables are 0/1 instead of True/False
+df_encoded = pd.get_dummies(df, columns=['gender', 'lunch', 'test preparation course', 'parental level of education'], drop_first=False, dtype=int)
+# columns=[...] specifies which columns to encode
+# drop_first=False keeps all categories
+# dtype=int makes values 0/1
+
+# Check new encoded DataFrame
+df_encoded.head()
